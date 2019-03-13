@@ -1,0 +1,44 @@
+div {
+  border: 2px solid red;
+  margin: 20px;
+  padding: 10px;
+}
+span:first-child {
+  background: pink;
+}
+p:last-child {
+  background: red;
+}
+p:first-of-type {
+  background: pink;
+}
+span:last-of-type {
+  background: red;
+}
+span:nth-child(2) {
+  color: red;
+}
+p:nth-last-child(3) {
+  color: red;
+}
+p:only-child {
+  color: red;
+}
+span:only-of-type {
+  color: blue;
+}
+
+#parent3 > ol {
+  background: red;
+}
+
+#parent2 > span {
+  color: red;
+}
+
+#parent3 li {
+  color: blue;
+}
+ol > li {
+  background: pink;
+}

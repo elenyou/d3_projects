@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Ford",
+    "price": "19000"
+  },
+  {
+    "name": "Mazda",
+    "price": "23000"
+  },
+  {
+    "name": "Nissan",
+    "price": "22000"
+  },
+  {
+    "name": "Acura",
+    "price": "40000"
+  },
+  {
+    "name": "Toyota",
+    "price": "25000"
+  },
+  {
+    "name": "Porshe",
+    "price": "30000"
+  }
+]
