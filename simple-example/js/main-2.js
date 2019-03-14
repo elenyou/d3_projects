@@ -42,7 +42,7 @@ d3.json("data/pricelist.json")
     const y = d3
       .scaleLinear()
       .domain([0, d3.max(data, d => d.price)])
-      .range([0, height]);
+      .range([height, 0]);
 
     const color = d3
       .scaleOrdinal()
@@ -52,7 +52,7 @@ d3.json("data/pricelist.json")
     const xAxisCall = d3.axisBottom(x);
     g.append("g")
       .attr("class", "x-axis")
-      .attr("transofm", "translate(0, " + height + ")")
+      .attr("transform", "translate(0," + height + ")")
       .call(xAxisCall);
 
     const yAxisCall = d3.axisLeft(y)
@@ -69,9 +69,9 @@ d3.json("data/pricelist.json")
       .enter()
       .append("rect")
       .attr("x", d => x(d.name))
-      .attr("y", 20)
-      .attr("width", x.bandwidth)
-      .attr("height", d => y(d.price))
+      .attr("y", (d)=> y(d.price))
+      .attr("width", x.bandwidth())
+      .attr("height", d => height - y(d.price))
       .style("fill", (d, i) => color(d.name));
   })
   .catch(e => {
