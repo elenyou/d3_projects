@@ -12,6 +12,20 @@ const g = d3
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 let time = 0;
+let interval;
+let formattedData;
+
+//Tooltip
+const tip = d3.tip().attr('class', 'd3-tip')
+  .html(function(d) {
+    let text = "<strong>Country:</strong><span style='color:red'>" + d.country + "</span><br>";
+    text += "<strong>Continent:</strong><span style='color:red;text-transform:capitalize'>" + d.continent + "</span><br>";
+    text += "<strong>Lifr Expectancy:</strong><span style='color:red'>" + d3.format(".2f")(d.life_exp) + "</span><br>";
+    text += "<strong>GPD Per Capita:</strong><span style='color:red'>" + d3.format("$,.0f")(d.income) + "</span><br>";
+    text += "<strong>Population:</strong><span style='color:red'>" + d.population + "</span><br>";
+    return text;
+  });
+g.call(tip);
 
 //Scales
 const x = d3
@@ -98,7 +112,7 @@ continents.forEach(function(continent, i) {
 });
 
 d3.json("data/data.json").then(function(data) {
-  const formattedData = data.map(function(year) {
+   formattedData = data.map(function(year) {
     return year["countries"]
       .filter(function(country) {
         var dataExists = country.income && country.life_exp;
@@ -111,32 +125,79 @@ d3.json("data/data.json").then(function(data) {
       })
   });
 
-  d3.interval(function() {
-    time = time < 214 ? time + 1 : 0
-    update(formattedData[time]);
-  }, 100);
-
   update(formattedData[0]);
+
 })
+
+$('#play-button')
+  .on("click", function(){
+    var button = $(this);
+    if(button.text() === "Play") {
+      button.text("Pause");
+      interval = setInterval(step, 100);
+    } else {
+      button.text("Play");
+      clearInterval(interval);
+    }
+  })
+
+$('#reset-button')
+  .on("click", function(){
+    time = 0;
+    update(formattedData[0]);
+})
+
+$("#continent-select")
+  .on("change", function(){
+    update(formattedData[time]);
+  })
+
+$("#date-slider").slider({
+  max: 2014,
+  min: 1800,
+  step: 1,
+  slide: function(event, ui) {
+    time = ui.value -1800;
+    update(formattedData[time]);
+  }
+})
+
+function step() {
+  time = time < 214 ? time + 1 : 0
+  update(formattedData[time]);
+}
 
 function update(data) {
   const t = d3.transition().duration(100);
+
+  var continent = $("#continent-select").val();
+
+  var data = data.filter( function(d) {
+    if (continent === 'all') {return true;}
+    else {
+      return d.continent == continent;
+    }
+})
 
   const circles = g.selectAll("circle")
   	.data(data, (d) => d.country);
 
   circles.exit().attr("class", "exit").remove();
 
-  circles
-    .enter()
+  circles.enter()
 	.append("circle")
 	.attr("class", "enter")
-	.attr("fill", (d) => color(d.continent))
+  .attr("fill", (d) => color(d.continent))
+  .on("mouseover", tip.show)
+  .on("mouseout", tip.hide)
 	.merge(circles)
     .transition(t)
 		.attr("cy", (d) => y(d.life_exp))
 		.attr("cx",  (d) => x(d.income))
 		.attr("r",  (d) => Math.sqrt(area(d.population) / Math.PI) );
 
-	timeLabel.text(+(time + 1800))
+  timeLabel.text(+(time + 1800))
+  $("#year")[0].innerHTML = +(time +1800)
+
+  $("#date-slider").slider("value", +(time +1800))
 }
