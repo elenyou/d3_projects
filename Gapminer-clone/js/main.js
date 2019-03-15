@@ -11,7 +11,7 @@ const g = d3
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var time = 0;
+let time = 0;
 
 //Scales
 const x = d3
@@ -75,8 +75,29 @@ const timeLabel = g
   .attr("text-anchor", "middle")
   .text("1800");
 
-d3.json("data/data.json").then(function(data) {
+const continents = ['europe', 'asia', 'americas', 'africa'];
 
+const legend = g.append('g')
+  .attr("transform", "translate(" + (width -10) + "," + (height - 125) + ")");
+
+continents.forEach(function(continent, i) {
+  let legendRow = legend.append('g')
+    .attr("transform", "translate(0, " + (i *20) + ")");
+
+    legendRow.append('rect')
+      .attr("width", 10)
+      .attr("height", 10)
+      .attr("fill", color(continent));
+
+    legendRow.append('text')
+      .attr("x", -10)
+      .attr("y", 10)
+      .attr("text-anchor", "end")
+      .style("text-transform", "capitalize")
+      .text(continent);
+});
+
+d3.json("data/data.json").then(function(data) {
   const formattedData = data.map(function(year) {
     return year["countries"]
       .filter(function(country) {
