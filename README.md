@@ -9,3 +9,6 @@ Demo: d3-Gapminer-clone.surge.sh
 
 Bitcoin-line-chart
 Demo: d3-bitcoin-line-chart.surge.sh
+
+Bar-chart
+Demo: d3-bar-chart.surge.sh
