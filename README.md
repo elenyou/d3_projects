@@ -15,3 +15,6 @@ Demo: d3-bar-chart.surge.sh
 
 Scatterplot-graph
 Demo: d3-scatterplot-graph.surge.sh
+
+Heat-map
+Demo:
