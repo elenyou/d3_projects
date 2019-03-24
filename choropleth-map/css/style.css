@@ -1,0 +1,23 @@
+#choropleth {
+  display: block;
+  margin: auto;
+}
+
+#tooltip {
+  background-color: rgba(187,187,187, 0.7);
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+}
+
+#title {
+  font-size: 45px;
+  text-anchor: middle;
+}
+
+#sub-title {
+  font-size: 15px;
+  text-anchor: middle;
+}

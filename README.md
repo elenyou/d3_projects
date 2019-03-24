@@ -17,4 +17,7 @@ Scatterplot-graph
 Demo: d3-scatterplot-graph.surge.sh
 
 Heat-map
-Demo:
+Demo: d3-heat-map.surge.sh
+
+Choropleth Map
+Demo: d3-choropleth-map.surge.sh
